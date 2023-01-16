@@ -1,0 +1,170 @@
+<div class="container">
+    <h3 style="color: #2D6A4F">Form Transaksi</h3>
+    <hr>
+    <form action="/transaction/add" method="post">
+        <h5 class="mt-2">List Cart</h5>
+        <ul class="list-group">
+            <% cart.forEach(element => { %>
+                <li class="list-group-item row">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <small style="color: #52B788">Jenis Telur</small>
+                            <h6>
+                                <%= element.jenis_telur %>
+                            </h6>
+                        </div>
+                        <div class="col-lg-1">
+                            <small style="color: #52B788">Kuantitas</small>
+                            <h6>
+                                <%= element.jumlah_telur %> Kg
+                            </h6>
+                        </div>
+                        <div class="col-lg-2">
+                            <small style="color: #52B788">Harga/Kg</small>
+                            <h6>
+                                Rp<%= element.harga_telur %>
+                            </h6>
+                        </div>
+                        <div class="col-lg-2">
+                            <small style="color: #52B788">Packaging</small>
+                            <h6>
+                                <%= element.nama_pack %>
+                            </h6>
+                        </div>
+                        <div class="col-lg-1">
+                            <small style="color: #52B788">Kuantitas</small>
+                            <h6>
+                                <%= element.jumlah_pack %> Pack
+                            </h6>
+                        </div>
+                        <div class="col-lg-2">
+                            <small style="color: #52B788">Harga/Pack</small>
+                            <h6>
+                                Rp<%= element.harga_pack * element.jumlah_pack %>
+                            </h6>
+                        </div>
+                        <div class="col-lg-1">
+                            <small style="color: #52B788">Total Item</small>
+                            <h6>
+                                Rp<%= ((element.jumlah_telur * element.harga_telur) + (element.harga_pack * element.jumlah_pack)) %>
+                            </h6>
+                        </div>
+                        <div class="col-lg-1">
+                            <a href="/cart/<%= element.id_telur %>">
+                                <button type="button" class="btn btn-danger btn-sm m-2">
+                                    &times;
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+            <% }) %>
+        </ul>
+        <button type="button" class="btn" style="background-color: #2D6A4F; color: white;" data-bs-toggle="modal" data-bs-target="#eggModal">
+            Tambah Item Pembelian
+        </button>
+        <hr>
+        <form action="/transaction/add" method="post">
+            Pilih Member
+            <select class="form-control mb-2" name="id_member" id="">
+                <option value="">-- Pilih Member --</option>
+                <% dataMember.forEach(element=> { %>
+                    <option value="<%= element.id %>">
+                        <%= element.nama_member %>
+                    </option>
+                <% }) %>
+            </select>
+            Tanggal Transaksi
+            <input class="form-control mb-2" type="date" name="tgl_transaksi" id="" value="<%= tgl_transaksi %>" required>
+    
+        <% if (cart.length > 0) { %>
+            <button type="submit" class="btn mt-2" style="background-color: #2D6A4F; color: white;">
+                Simpan Transaksi
+            </button>
+        <% } %>
+    </form>
+</div>
+
+<div class="modal fade" id="eggModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Pilihan Item</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/cart" method="post">
+                    Pilih Telur
+                    <select class="form-control mb-2" name="id_telur" required onchange="pilihEgg(this.value)">
+                        <option value="">-- Pilih Telur --</option>
+                        <% dataEgg.forEach(element=> { %>
+                            <option value="<%= element.id %>">
+                                <%= element.jenis_telur %>
+                            </option>
+                            <% }) %>
+                    </select>
+                    Kuantitas
+                    <input class="form-control mb-2" type="number" name="jumlah_telur" id="jumlah_telur" required min="1"
+                        onchange="totalTelur(this.value)" onkeyup="totalTelur(this.value)">
+                    Harga/Kg
+                    <input class="form-control mb-2" type="number" name="harga_telur" id="harga_telur" required readonly>
+                    Total Telur
+                    <input class="form-control mb-2" type="number" name="total_telur" id="total_telur" required readonly>
+                    Pilih Packaging
+                    <select class="form-control mb-2" name="id_pack" required onchange="pilihPack(this.value)">
+                        <option value="">-- Pilih Packaging --</option>
+                        <% dataPack.forEach(element=> { %>
+                            <option value="<%= element.id %>">
+                                <%= element.nama_pack %> - <%= element.volume %> Kg
+                            </option>
+                            <% }) %>
+                    </select>
+                    Kuantitas
+                    <input class="form-control mb-2" type="number" name="jumlah_pack" id="jumlah_pack" required readonly>
+                    Harga Satuan
+                    <input class="form-control mb-2" type="number" name="harga_pack" id="harga_pack" required readonly>
+                    Total Pack
+                    <input class="form-control mb-2" type="number" name="total_pack" id="total_pack" required readonly>
+                    <button type="submit" class="btn btn-success w-100 mt-3">
+                        Tambahkan Item
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function pilihEgg(id) {
+        let egg = JSON.parse(`<%- dataEggString %>`)
+        let idDipilih = egg.find(item => item.id == id)
+        let harga = idDipilih.harga
+        let stok = idDipilih.stok
+        document.getElementById(`harga_telur`).value = harga
+        let jumlah = Number(document.getElementById(`jumlah_telur`).value)
+        let total = harga * jumlah
+        document.getElementById(`total_telur`).value = total
+    }
+    function totalTelur(jumlah) {
+        let harga = Number(document.getElementById(`harga_telur`).value)
+        let total = jumlah * harga
+        document.getElementById(`total_telur`).value = total
+    }
+    function pilihPack(id) {
+        let pack = JSON.parse(`<%- dataPackString %>`)
+        let idDipilih = pack.find(item => item.id == id)
+        let harga = idDipilih.harga
+        let volume = idDipilih.volume
+        let kuantitas = Number(document.getElementById(`jumlah_telur`).value)
+        let jumlah = Math.ceil(kuantitas/volume)
+        let total = harga * jumlah
+        document.getElementById('jumlah_pack').value = jumlah
+        document.getElementById(`harga_pack`).value = harga
+        document.getElementById(`total_pack`).value = total
+    }
+    function totalPack(jumlah) {
+        let harga = Number(document.getElementById(`harga_pack`).value)
+        let total = jumlah * harga
+        document.getElementById(`total_pack`).value = total
+    }
+</script>

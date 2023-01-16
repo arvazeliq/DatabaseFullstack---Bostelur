@@ -1,0 +1,19 @@
+<div class="container">
+    <div class="card">
+        <div class="card-header" style="background-color: #2D6A4F">
+            <h4 class="text-light fs-4">Formulir Admin</h4>
+        </div>
+        <div class="card-body">
+            <form action="<%= targetRoute %>" method="post">
+                Nama Admin
+                <input type="text" name="nama_admin" id="" class="form-control mb-2" value="<%= nama_admin %>" required>
+                Username
+                <input type="text" name="username" id="" class="form-control mb-2" value="<%= username %>" required>
+                Password
+                <input type="password" name="password" id="" class="form-control mb-2" value="<%= deskripsi(password) %>" required>
+
+                <button class="btn mt-2" type="submit" style="background-color: #2D6A4F; color: white;" onclick="return confirm(`Apakah anda yakin data ini sudah benar?`)">Simpan</button>
+            </form>
+        </div>
+    </div>
+</div>

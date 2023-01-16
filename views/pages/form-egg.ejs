@@ -1,0 +1,19 @@
+<div class="container">
+    <div class="card">
+        <div class="card-header" style="background-color: #2D6A4F">
+            <h4 class="text-light fs-4">Formulir Telur</h4>
+        </div>
+        <div class="card-body">
+            <form action="<%= targetRoute %>" method="post">
+                Jenis telur
+                <input type="text" name="jenis_telur" id="" class="form-control mb-2" value="<%= jenis_telur %>" required>
+                Stok (Kg)
+                <input type="number" name="stok" id="" class="form-control mb-2" value="<%= stok %>" required>
+                Harga/Kg
+                <input type="number" name="harga" id="" class="form-control mb-2" value="<%= harga %>" required>
+
+                <button class="btn mt-2" type="submit" style="background-color: #2D6A4F; color: white;" onclick="return confirm(`Apakah anda yakin data ini sudah benar?`)">Simpan</button>
+            </form>
+        </div>
+    </div>
+</div>

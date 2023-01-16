@@ -1,0 +1,43 @@
+<div class="container">
+    <h4>Daftar Telur</h4>
+    <hr>
+    <ul class="list-group my-2">
+        <% data.forEach(element => { %>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <small style="color: #52B788">Jenis Telur</small>
+                        <br>
+                        <%= element.jenis_telur %>
+                    </div>
+                    <div class="col-lg-3">
+                        <small style="color: #52B788">Stok/Kg</small>
+                        <br>
+                        <%= element.stok %> Kg
+                    </div>
+                    <div class="col-lg-4">
+                        <small style="color: #52B788">Harga/Kg</small>
+                        <br>
+                        Rp<%= element.harga %>
+                    </div>
+                    <div class="col-lg-2">
+                        <small style="color: #52B788">Option</small>
+                        <br>
+                        <a href="/list-egg/edit/<%= element.id %>">
+                            <button class="btn btn-sm fw-semibold" style="background-color: #95D5B2;">Edit</button>
+                        </a>
+                        <a href="/list-egg/delete/<%= element.id %>" onclick="return confirm(`Apakah Anda yakin ingin menghapus data ini`)">
+                            <button class="btn btn-sm fw-semibold btn-danger">Hapus</button>
+                        </a>
+                    </div>
+                </div>
+            </li>
+        <% }) %>
+    </ul>
+
+    <a href="/list-egg/add">
+        <button class="btn btn-md mt-2" style="background-color: #2D6A4F; color: white;">
+            Tambah Data
+        </button>
+    </a>
+</div>

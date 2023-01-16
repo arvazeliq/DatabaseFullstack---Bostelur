@@ -1,0 +1,82 @@
+<div class="container">
+    <h3>List Transaksi</h3>
+    <hr>
+    <ul class="list-group">
+        <% transaksi.forEach(element=> { %>
+            <li class="list-group-item mt-2" style="background-color: #D8F3DC;">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <small style="color: #40916C">Tanggal Transaksi</small>
+                        <h6>
+                            <%= element.tgl_transaksi %>
+                        </h6>
+                    </div>
+                    <div class="col-lg-3">
+                        <small style="color: #40916C">Nama Member</small>
+                        <h6>
+                            <%= element.nama_member %>
+                        </h6>
+                    </div>
+                    <div class="col-lg-5">
+                        <small style="color: #40916C">Nama Admin</small>
+                        <h6>
+                            <%= element.nama_admin %>
+                        </h6>
+                    </div>
+                    <div class="col-lg-1 mt-2">
+                        <a href="/transaction/<%= element.id %>" onclick="return confirm(`Apakah anda yakin ingin menghapus data ini?`)">
+                            <button class="btn btn-danger btn-sm fw-semibold">
+                                Hapus
+                            </button>
+                        </a>
+                    </div>
+                </div>
+                <h5 class="mt-2">Daftar Pembelian</h5>
+                <ul class="list-group">
+                    <% element.detail.forEach(item => { %>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-lg-2">
+                                    <small style="color: #52b788">Jenis Telur</small>
+                                    <h6 class="fst-italic">
+                                        <%= item.jenis_telur %>
+                                    </h6>
+                                </div>
+                                <div class="col-lg-1">
+                                    <small style="color: #52b788">Harga/Kg</small>
+                                    <h6 class="fst-italic">
+                                        Rp<%= item.harga_telur %>
+                                    </h6>
+                                </div>
+                                <div class="col-lg-1">
+                                    <small style="color: #52b788">Kuantitas</small>
+                                    <h6 class="fst-italic">
+                                        <%= item.jumlah_telur %> Kg
+                                    </h6>
+                                </div>
+                                <div class="col-lg-2">
+                                    <small style="color: #52b788">Harga Item</small>
+                                    <h6 class="fst-italic">
+                                        Rp. <%= Number(item.jumlah_telur*item.harga_telur) %>
+                                    </h6>
+                                </div>
+                                <div class="col-lg-3">
+                                    <small style="color: #52b788">Packaging - Volume Maks</small>
+                                    <h6 class="fst-italic">
+                                        <%= item.nama_pack %> - <%= item.volume %> Kg
+                                    </h6>
+                                </div>
+                                <div class="col-lg-2">
+                                    <small style="color: #52b788">Total Item</small>
+                                    <h6 class="fst-italic">
+                                        Rp<%= ((item.jumlah_telur * item.harga_telur) + (item.harga_pack * item.jumlah_pack)) %>
+                                    </h6>
+                                </div>
+                            </div>
+                        </li>
+                    <% }) %>
+                </ul>
+            </li>
+        <% }) %>
+    </ul>
+</div>

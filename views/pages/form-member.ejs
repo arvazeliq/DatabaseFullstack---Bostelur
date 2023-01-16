@@ -1,0 +1,19 @@
+<div class="container">
+    <div class="card">
+        <div class="card-header" style="background-color: #2D6A4F">
+            <h4 class="text-light fs-4">Formulir Member</h4>
+        </div>
+        <div class="card-body">
+            <form action="<%= targetRoute %>" method="post">
+                Nama Member
+                <input type="text" name="nama_member" id="" class="form-control mb-2" value="<%= nama_member %>" required>
+                Alamat
+                <input type="text" name="alamat" id="" class="form-control mb-2" value="<%= alamat %>" required>
+                Telepon
+                <input type="text" name="telepon" id="" class="form-control mb-2" value="<%= telepon %>" required>
+
+                <button class="btn mt-2" type="submit" style="background-color: #2D6A4F; color: white;" onclick="return confirm(`Apakah anda yakin data ini sudah benar?`)">Simpan</button>
+            </form>
+        </div>
+    </div>
+</div>
